@@ -1,7 +1,7 @@
-package com.expedia.www.hayastack.dropwizard.java.example.resources;
+package com.expedia.www.hayastack.dropwizard.example.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.expedia.www.hayastack.dropwizard.java.example.entities.Saying;
+import com.expedia.www.hayastack.dropwizard.example.entities.Saying;
 import org.eclipse.microprofile.opentracing.Traced;
 
 import javax.ws.rs.GET;

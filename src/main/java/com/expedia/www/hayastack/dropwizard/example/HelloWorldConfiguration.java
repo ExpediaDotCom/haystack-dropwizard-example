@@ -1,4 +1,4 @@
-package com.expedia.www.hayastack.dropwizard.java.example;
+package com.expedia.www.hayastack.dropwizard.example;
 
 import com.expedia.haystack.dropwizard.configuration.TracerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;

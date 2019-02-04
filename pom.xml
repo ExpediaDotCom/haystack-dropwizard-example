@@ -5,12 +5,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.expedia.www</groupId>
-  <artifactId>haystack-client-dropwizard-java-example</artifactId>
+  <artifactId>haystack-dropwizard-example</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>haystack-client-dropwizard-java-example</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>haystack-dropwizard-example</name>
+
+  <url>https://github.com/ExpediaDotCom/haystack-dropwizard-example</url>
 
   <properties>
     <dropwizard.version>1.2.2</dropwizard.version>

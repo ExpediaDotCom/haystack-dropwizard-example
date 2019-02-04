@@ -1,8 +1,8 @@
-package com.expedia.www.hayastack.dropwizard.java.example;
+package com.expedia.www.hayastack.dropwizard.example;
 
-import com.expedia.www.hayastack.dropwizard.java.example.health.TemplateHealthCheck;
-import com.expedia.www.hayastack.dropwizard.java.example.resources.HelloWorldResource;
-import com.expedia.www.hayastack.dropwizard.java.example.resources.UntracedResource;
+import com.expedia.www.hayastack.dropwizard.example.health.TemplateHealthCheck;
+import com.expedia.www.hayastack.dropwizard.example.resources.HelloWorldResource;
+import com.expedia.www.hayastack.dropwizard.example.resources.UntracedResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import io.opentracing.Tracer;

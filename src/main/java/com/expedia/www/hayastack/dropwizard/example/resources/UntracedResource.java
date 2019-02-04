@@ -1,4 +1,4 @@
-package com.expedia.www.hayastack.dropwizard.java.example.resources;
+package com.expedia.www.hayastack.dropwizard.example.resources;
 
 import org.eclipse.microprofile.opentracing.Traced;
 

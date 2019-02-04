@@ -1,4 +1,4 @@
-package com.expedia.www.hayastack.dropwizard.java.example.health;
+package com.expedia.www.hayastack.dropwizard.example.health;
 
 import com.codahale.metrics.health.HealthCheck;
 
