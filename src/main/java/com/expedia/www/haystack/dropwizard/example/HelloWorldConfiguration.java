@@ -1,9 +1,8 @@
-package com.expedia.www.hayastack.dropwizard.example;
+package com.expedia.www.haystack.dropwizard.example;
 
 import com.expedia.haystack.dropwizard.configuration.TracerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
-import io.opentracing.Tracer;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
@@ -18,11 +17,11 @@ public class HelloWorldConfiguration extends Configuration {
     private String template;
 
     @NotEmpty
-    private TracerFactory tracerFactory;
-
-    @Valid
-    @NotNull
     private String defaultName = "Stranger";
+
+    @NotNull
+    @Valid
+    private TracerFactory tracerFactory;
 
     @JsonProperty
     public String getTemplate() {

@@ -1,4 +1,4 @@
-package com.expedia.www.hayastack.dropwizard.example.health;
+package com.expedia.www.haystack.dropwizard.example.health;
 
 import com.codahale.metrics.health.HealthCheck;
 
@@ -13,6 +13,7 @@ public class TemplateHealthCheck extends HealthCheck {
         this.template = template;
     }
 
+    @Override
     protected Result check() throws Exception {
         final String saying = String.format(template, "TEST");
         if (! saying.contains("TEST")) {

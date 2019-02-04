@@ -1,4 +1,4 @@
-package com.expedia.www.hayastack.dropwizard.example.entities;
+package com.expedia.www.haystack.dropwizard.example.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

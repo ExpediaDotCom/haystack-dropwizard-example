@@ -8,14 +8,18 @@
   <artifactId>haystack-dropwizard-example</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>haystack-dropwizard-example</name>
+  <name>Haystack client integration for a dropwizard application</name>
 
   <url>https://github.com/ExpediaDotCom/haystack-dropwizard-example</url>
 
   <properties>
     <dropwizard.version>1.2.2</dropwizard.version>
     <haystack-client-dropwizard.version>0.2.4</haystack-client-dropwizard.version>
+    <haystack-client-micrometer.version>0.2.4</haystack-client-micrometer.version>
+    <haystack-client-dropwizard-metrics.version>0.2.4</haystack-client-dropwizard-metrics.version>
     <version.io.opentracing.contrib-jaxrs2>0.1.4</version.io.opentracing.contrib-jaxrs2>
+    <version.io.microprofile-opentracing>1.0</version.io.microprofile-opentracing>
+    <mainClass>com.expedia.www.haystack.dropwizard.example.HelloWorldApplication</mainClass>
   </properties>
 
   <dependencyManagement>
@@ -32,16 +36,39 @@
 
   <dependencies>
 
+    <!-- Dropwizard based metrics for haystack-client -->
     <dependency>
       <groupId>com.expedia.www</groupId>
       <artifactId>haystack-client-dropwizard</artifactId>
       <version>${haystack-client-dropwizard.version}</version>
     </dependency>
 
+    <!-- Dropwizard based metrics for haystack-client -->
+    <dependency>
+      <groupId>com.expedia.www</groupId>
+      <artifactId>haystack-client-dropwizard-metrics</artifactId>
+      <version>${haystack-client-dropwizard-metrics.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Micrometer based metrics for haystack-client -->
+    <dependency>
+      <groupId>com.expedia.www</groupId>
+      <artifactId>haystack-client-micrometer</artifactId>
+      <version>${haystack-client-micrometer.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+
     <dependency>
       <groupId>io.opentracing.contrib</groupId>
       <artifactId>opentracing-jaxrs2</artifactId>
       <version>${version.io.opentracing.contrib-jaxrs2}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.microprofile.opentracing</groupId>
+      <artifactId>microprofile-opentracing-api</artifactId>
+      <version>${version.io.microprofile-opentracing}</version>
     </dependency>
 
     <dependency>
@@ -57,48 +84,68 @@
   </dependencies>
 
   <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
-      <plugins>
-        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
-        </plugin>
-        <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
-        <plugin>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.0.0</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.4.1</version>
+        <configuration>
+          <createDependencyReducedPom>true</createDependencyReducedPom>
+          <transformers>
+            <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+              <mainClass>${mainClass}</mainClass>
+            </transformer>
+          </transformers>
+          <!-- exclude signed Manifests -->
+          <filters>
+            <filter>
+              <artifact>*:*</artifact>
+              <excludes>
+                <exclude>META-INF/*.SF</exclude>
+                <exclude>META-INF/*.DSA</exclude>
+                <exclude>META-INF/*.RSA</exclude>
+              </excludes>
+            </filter>
+          </filters>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addClasspath>true</addClasspath>
+              <mainClass>${mainClass}</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.8.1</version>
+        <configuration>
+          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+          <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>

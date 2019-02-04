@@ -1,8 +1,8 @@
-package com.expedia.www.hayastack.dropwizard.example;
+package com.expedia.www.haystack.dropwizard.example;
 
-import com.expedia.www.hayastack.dropwizard.example.health.TemplateHealthCheck;
-import com.expedia.www.hayastack.dropwizard.example.resources.HelloWorldResource;
-import com.expedia.www.hayastack.dropwizard.example.resources.UntracedResource;
+import com.expedia.www.haystack.dropwizard.example.health.TemplateHealthCheck;
+import com.expedia.www.haystack.dropwizard.example.resources.HelloWorldResource;
+import com.expedia.www.haystack.dropwizard.example.resources.UntracedResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import io.opentracing.Tracer;
@@ -17,7 +17,7 @@ import java.util.EnumSet;
  */
 public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
         new HelloWorldApplication().run(args);
     }
 
