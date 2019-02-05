@@ -9,8 +9,8 @@ tracer:
       loggerName: dispatcher
     - type: remote
       client:
-        type: logger
-        loggerName: client
+        type: agent
+        host: localhost
         format:
           type: protobuf
 
