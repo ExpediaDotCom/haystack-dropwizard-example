@@ -1,0 +1,37 @@
+serviceType: backend
+
+tracer:
+  serviceName: Backend
+  enabled: true
+  dispatchers:
+    - type: logger
+      loggerName: dispatcher
+    - type: remote
+      client:
+        type: agent
+        host: localhost
+        format:
+          type: protobuf
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 9091
+  adminConnectors:
+    - type: http
+      port: 8082
+
+logging:
+  level: INFO
+  loggers:
+    group: DEBUG
+
+    # capture logger dispatcher interactions to a seperate file
+    dispatcher:
+      level: DEBUG
+      additive: false
+      appenders:
+        - type: file
+          currentLogFilename: ./logs/dispatcher.log
+          archivedLogFilenamePattern: ./logs/dispatcher-%d.log.gz
+          archivedFileCount: 5

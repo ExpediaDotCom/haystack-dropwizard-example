@@ -1,0 +1,34 @@
+serviceType: frontend
+
+tracer:
+  serviceName: Frontend
+  enabled: true
+  dispatchers:
+    - type: logger
+      loggerName: dispatcher
+    - type: remote
+      client:
+        type: agent
+        host: localhost
+        format:
+          type: protobuf
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 9090
+
+logging:
+  level: INFO
+  loggers:
+    group: DEBUG
+
+    # capture logger dispatcher interactions to a seperate file
+    dispatcher:
+      level: DEBUG
+      additive: false
+      appenders:
+        - type: file
+          currentLogFilename: ./logs/frontenddispatcher.log
+          archivedLogFilenamePattern: ./logs/frontenddispatcher-%d.log.gz
+          archivedFileCount: 5
