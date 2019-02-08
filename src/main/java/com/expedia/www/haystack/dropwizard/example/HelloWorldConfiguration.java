@@ -17,6 +17,9 @@ public class HelloWorldConfiguration extends Configuration {
     private String template;
 
     @NotEmpty
+    private String serviceType;
+
+    @NotEmpty
     private String defaultName = "Stranger";
 
     @Valid
@@ -31,6 +34,16 @@ public class HelloWorldConfiguration extends Configuration {
     @JsonProperty
     public void setTemplate(String template) {
         this.template = template;
+    }
+
+    @JsonProperty
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    @JsonProperty
+    public String getServiceType() {
+        return serviceType;
     }
 
     @JsonProperty

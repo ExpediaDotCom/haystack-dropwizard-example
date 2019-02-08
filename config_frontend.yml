@@ -1,8 +1,9 @@
 template: Hello, %s!
 defaultName: Stranger
+serviceType: frontend
 
 tracer:
-  serviceName: HelloWorld
+  serviceName: Frontend
   enabled: true
   dispatchers:
     - type: logger
@@ -30,8 +31,8 @@ logging:
       additive: false
       appenders:
         - type: file
-          currentLogFilename: ./logs/dispatcher.log
-          archivedLogFilenamePattern: ./logs/dispatcher-%d.log.gz
+          currentLogFilename: ./logs/frontenddispatcher.log
+          archivedLogFilenamePattern: ./logs/frontenddispatcher-%d.log.gz
           archivedFileCount: 5
 
     # capture logger client interactions to a seperate file
@@ -40,6 +41,6 @@ logging:
       additive: false
       appenders:
         - type: file
-          currentLogFilename: ./logs/client.log
-          archivedLogFilenamePattern: ./logs/client-%d.log.gz
+          currentLogFilename: ./logs/frontendclient.log
+          archivedLogFilenamePattern: ./logs/frontendclient-%d.log.gz
           archivedFileCount: 5

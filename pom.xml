@@ -8,18 +8,16 @@
   <artifactId>haystack-dropwizard-example</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>Haystack client integration for a dropwizard application</name>
-
-  <url>https://github.com/ExpediaDotCom/haystack-dropwizard-example</url>
-
   <properties>
+    <mainClass>com.expedia.www.haystack.dropwizard.example.HelloWorldApplication</mainClass>
     <dropwizard.version>1.2.2</dropwizard.version>
     <haystack-client-dropwizard.version>0.2.4</haystack-client-dropwizard.version>
     <haystack-client-micrometer.version>0.2.4</haystack-client-micrometer.version>
     <haystack-client-dropwizard-metrics.version>0.2.4</haystack-client-dropwizard-metrics.version>
     <version.io.opentracing.contrib-jaxrs2>0.1.4</version.io.opentracing.contrib-jaxrs2>
     <version.io.microprofile-opentracing>1.0</version.io.microprofile-opentracing>
-    <mainClass>com.expedia.www.haystack.dropwizard.example.HelloWorldApplication</mainClass>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencyManagement>
@@ -129,23 +127,13 @@
           </archive>
         </configuration>
       </plugin>
-    </plugins>
-  </build>
-
-  <reporting>
-    <plugins>
       <plugin>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.8.1</version>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
         <configuration>
-          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-          <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+          <mainClass>${mainClass}</mainClass>
         </configuration>
       </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.3</version>
-      </plugin>
     </plugins>
-  </reporting>
+  </build>
 </project>

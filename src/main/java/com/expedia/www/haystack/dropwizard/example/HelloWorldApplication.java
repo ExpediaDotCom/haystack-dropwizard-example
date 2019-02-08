@@ -1,20 +1,20 @@
 package com.expedia.www.haystack.dropwizard.example;
 
 import com.expedia.www.haystack.dropwizard.example.health.TemplateHealthCheck;
-import com.expedia.www.haystack.dropwizard.example.resources.HelloWorldResource;
-import com.expedia.www.haystack.dropwizard.example.resources.UntracedResource;
+import com.expedia.www.haystack.dropwizard.example.resources.Backend;
+import com.expedia.www.haystack.dropwizard.example.resources.Frontend;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import io.opentracing.Tracer;
+import io.opentracing.contrib.jaxrs2.client.ClientTracingFeature;
 import io.opentracing.contrib.jaxrs2.server.ServerTracingDynamicFeature;
 import io.opentracing.contrib.jaxrs2.server.SpanFinishingFilter;
 
 import javax.servlet.DispatcherType;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import java.util.EnumSet;
 
-/**
- * Created by ragsingh on 01/02/19.
- */
 public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
 
     public static void main(String[] args) throws Exception {
@@ -25,26 +25,35 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     public void run(HelloWorldConfiguration helloWorldConfiguration,
                     Environment environment) throws Exception {
 
-        Tracer tracer = helloWorldConfiguration.getTracer().build(environment);
+        final Tracer tracer = helloWorldConfiguration.getTracer().build(environment);
+        registerTracer(environment, tracer);
+
+        switch (helloWorldConfiguration.getServiceType().toLowerCase()) {
+            case "frontend":
+                final Client client = ClientBuilder.newBuilder()
+                        .register(new ClientTracingFeature.Builder(tracer)
+                                        .withTraceSerialization(false)
+                                        .build())
+                        .build();
+                environment.jersey().register(new Frontend(client));
+                break;
+            case "backend":
+                environment.jersey().register(new Backend(
+                        helloWorldConfiguration.getTemplate(),
+                        helloWorldConfiguration.getDefaultName()));
+                break;
+            default:
+        }
+    }
+
+    private void registerTracer(Environment environment, Tracer tracer) {
         final ServerTracingDynamicFeature tracingDynamicFeature = new ServerTracingDynamicFeature
-                .Builder(tracer).build();
+                .Builder(tracer)
+                .withTraceSerialization(false).build();
         environment.jersey().register(tracingDynamicFeature);
 
-        environment.servlets().addFilter("SpanFinishingFilter", new SpanFinishingFilter(tracer))
-                .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
-
-        final HelloWorldResource helloWorldResource = new HelloWorldResource(
-                helloWorldConfiguration.getTemplate(),
-                helloWorldConfiguration.getDefaultName());
-
-        environment.jersey().register(helloWorldResource);
-
-        environment.jersey().register(new UntracedResource(
-                helloWorldConfiguration.getTemplate(),
-                helloWorldConfiguration.getDefaultName()));
-
-
-        final TemplateHealthCheck healthCheck = new TemplateHealthCheck(helloWorldConfiguration.getTemplate());
-        environment.healthChecks().register("template", healthCheck);
+        environment.servlets()
+                .addFilter("SpanFinishingFilter", new SpanFinishingFilter(tracer))
+                .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
     }
 }

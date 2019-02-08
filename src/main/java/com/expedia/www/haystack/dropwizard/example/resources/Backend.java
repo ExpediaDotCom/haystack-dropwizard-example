@@ -16,14 +16,14 @@ import java.util.concurrent.atomic.AtomicLong;
  * Created by ragsingh on 04/02/19.
  */
 
-@Path("/hello-world")
+@Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
-public class HelloWorldResource {
+public class Backend {
     private final String template;
     private final String defaultName;
     private final AtomicLong counter;
 
-    public HelloWorldResource(String template, String defaultName) {
+    public Backend(String template, String defaultName) {
         this.template = template;
         this.defaultName = defaultName;
         this.counter = new AtomicLong();
@@ -31,6 +31,7 @@ public class HelloWorldResource {
 
     @GET
     @Timed
+    @Traced(operationName = "sayHello")
     public Saying sayHello(@QueryParam("name") Optional<String> name) {
         final String value = String.format(template, name.orElse(defaultName));
         return new Saying(counter.incrementAndGet(), value);
@@ -41,14 +42,6 @@ public class HelloWorldResource {
     @Path("/ignored")
     @Traced(false)
     public Saying sayHelloNotTracked(@QueryParam("name") Optional<String> name) {
-        return sayHello(name);
-    }
-
-    @GET
-    @Timed
-    @Path("/world")
-    @Traced(operationName = "hello-world")
-    public Saying sayHelloWorld(@QueryParam("name") Optional<String> name) {
         return sayHello(name);
     }
 
