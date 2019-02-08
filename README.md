@@ -1,6 +1,6 @@
 ## Table of Contents
 
-- [Opentracing-spring-haystack-web-starter example](#opentracing-spring-haystack-web-starter-example)
+- [Haystack-dropwizard-starter](#Haystack-dropwizard-starter)
 - [About this example](#about-this-example)
   * [Instrumentation](#instrumentation)
 - [Running this example](#running-this-example)
@@ -8,7 +8,7 @@
   * [Run with no backend](#run-with-no-backend)
   * [Run with Haystack server](#run-with-haystack-server)
 
-## Opentracing-spring-haystack-web-starter example
+## Haystack-dropwizard-example
 
 In this example, the two Dropwizard services call one from another to show a client and server working with tracing instrumentation. Telemetry from this application is recorded in [Haystack](http://expediadotcom.github.io/haystack/) server, a distributed tracing system. Haystack will allow one to see the service call dependency and how long it took for the whole operation to complete. Here is what a sample output in the UI will look like: 
 
@@ -16,7 +16,7 @@ In this example, the two Dropwizard services call one from another to show a cli
 
 ## About this example
 
-This is a very basic example that can output the instrumentation to console and/or a Haystack server. This is an example application written with two simple Dropwizard Services to show how a dropwizard application can be instrumented with [opentracing-spring-haystack-web-starter](https://github.com/ExpediaDotCom/haystack-client-java/tree/master/integrations/dropwizard). 
+This is a very basic example that can output the instrumentation to console and/or a Haystack server. This is an example application written with two simple Dropwizard Services to show how a dropwizard application can be instrumented with [haystack-client-java dropwizard integration](https://github.com/ExpediaDotCom/haystack-client-java/tree/master/integrations/dropwizard). 
 
 * Service one:  Backend.  This listens on port 9091 and exposes one endpoint : http://localhost:9091/api - when invoked, it returns a simple string like `Hello, Haystack!`
 
@@ -45,7 +45,7 @@ There are two modes to run the application. One with no `Haystack` server, where
 
 ### Run with no backend
 
-In this mode, the application runs with the configuration in [application.yml](src/main/resources/application.yml) which configures the instrumentation to use a simple logger as the dispatcher.
+In this mode, the application runs with the configuration in [config_frontend.yml](config_frontend.yml) and [config_backend.yml](config_backend.yml) which configures the instrumentation to use a simple logger as the dispatcher.
 
 To run the example in this mode, execute 
 
