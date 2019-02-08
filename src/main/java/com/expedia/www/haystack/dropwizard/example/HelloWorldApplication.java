@@ -1,6 +1,5 @@
 package com.expedia.www.haystack.dropwizard.example;
 
-import com.expedia.www.haystack.dropwizard.example.health.TemplateHealthCheck;
 import com.expedia.www.haystack.dropwizard.example.resources.Backend;
 import com.expedia.www.haystack.dropwizard.example.resources.Frontend;
 import io.dropwizard.Application;
@@ -30,6 +29,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
 
         switch (helloWorldConfiguration.getServiceType().toLowerCase()) {
             case "frontend":
+                // This creates a client with the tracing feature enabled so as to trace the downstream interactions.
                 final Client client = ClientBuilder.newBuilder()
                         .register(new ClientTracingFeature.Builder(tracer)
                                         .withTraceSerialization(false)
@@ -38,15 +38,15 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
                 environment.jersey().register(new Frontend(client));
                 break;
             case "backend":
-                environment.jersey().register(new Backend(
-                        helloWorldConfiguration.getTemplate(),
-                        helloWorldConfiguration.getDefaultName()));
+                environment.jersey().register(new Backend());
                 break;
             default:
         }
     }
 
     private void registerTracer(Environment environment, Tracer tracer) {
+        // This registers a server tracing feature with the jersey environment so that the
+        // incoming calls to the service are traced
         final ServerTracingDynamicFeature tracingDynamicFeature = new ServerTracingDynamicFeature
                 .Builder(tracer)
                 .withTraceSerialization(false).build();

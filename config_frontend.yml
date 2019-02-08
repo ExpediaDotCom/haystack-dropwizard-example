@@ -1,5 +1,3 @@
-template: Hello, %s!
-defaultName: Stranger
 serviceType: frontend
 
 tracer:
@@ -33,14 +31,4 @@ logging:
         - type: file
           currentLogFilename: ./logs/frontenddispatcher.log
           archivedLogFilenamePattern: ./logs/frontenddispatcher-%d.log.gz
-          archivedFileCount: 5
-
-    # capture logger client interactions to a seperate file
-    client:
-      level: DEBUG
-      additive: false
-      appenders:
-        - type: file
-          currentLogFilename: ./logs/frontendclient.log
-          archivedLogFilenamePattern: ./logs/frontendclient-%d.log.gz
           archivedFileCount: 5

@@ -12,20 +12,12 @@ import javax.ws.rs.core.MediaType;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * Created by ragsingh on 04/02/19.
- */
-
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
 public class Backend {
-    private final String template;
-    private final String defaultName;
-    private final AtomicLong counter;
+        private final AtomicLong counter;
 
-    public Backend(String template, String defaultName) {
-        this.template = template;
-        this.defaultName = defaultName;
+    public Backend() {
         this.counter = new AtomicLong();
     }
 
@@ -33,7 +25,7 @@ public class Backend {
     @Timed
     @Traced(operationName = "sayHello")
     public Saying sayHello(@QueryParam("name") Optional<String> name) {
-        final String value = String.format(template, name.orElse(defaultName));
+        final String value = String.format("Hello, %s!", name.orElse("Harry"));
         return new Saying(counter.incrementAndGet(), value);
     }
 

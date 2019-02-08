@@ -1,6 +1,6 @@
 ## Table of Contents
 
-- [Haystack-dropwizard-starter](#Haystack-dropwizard-starter)
+- [Haystack-dropwizard](#Haystack-dropwizard)
 - [About this example](#about-this-example)
   * [Instrumentation](#instrumentation)
 - [Running this example](#running-this-example)
@@ -8,7 +8,7 @@
   * [Run with no backend](#run-with-no-backend)
   * [Run with Haystack server](#run-with-haystack-server)
 
-## Haystack-dropwizard-example
+## Haystack-dropwizard
 
 In this example, the two Dropwizard services call one from another to show a client and server working with tracing instrumentation. Telemetry from this application is recorded in [Haystack](http://expediadotcom.github.io/haystack/) server, a distributed tracing system. Haystack will allow one to see the service call dependency and how long it took for the whole operation to complete. Here is what a sample output in the UI will look like: 
 
@@ -18,9 +18,9 @@ In this example, the two Dropwizard services call one from another to show a cli
 
 This is a very basic example that can output the instrumentation to console and/or a Haystack server. This is an example application written with two simple Dropwizard Services to show how a dropwizard application can be instrumented with [haystack-client-java dropwizard integration](https://github.com/ExpediaDotCom/haystack-client-java/tree/master/integrations/dropwizard). 
 
-* Service one:  Backend.  This listens on port 9091 and exposes one endpoint : http://localhost:9091/api - when invoked, it returns a simple string like `Hello, Haystack!`
+* Frontend service:  This listens on port 9090 and exposes one endpoint: http://localhost:9090/hello  - this in turn calls the endpoint exposed by `Backend` and proxy the response
 
-* Service two:  Frontend:  This listens on port 9090 and exposes one endpoint: http://localhost:9090/hello  - this in turn calls the endpoint exposed by `Backend` and proxy the response
+* Backend service:  This listens on port 9091 and exposes one endpoint : http://localhost:9091/api - when invoked, it returns a simple string like `Hello, Haystack!`
 
 ### Instrumentation
 

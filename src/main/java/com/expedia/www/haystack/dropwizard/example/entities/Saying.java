@@ -2,9 +2,6 @@ package com.expedia.www.haystack.dropwizard.example.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by ragsingh on 04/02/19.
- */
 public class Saying {
 
     private long id;
