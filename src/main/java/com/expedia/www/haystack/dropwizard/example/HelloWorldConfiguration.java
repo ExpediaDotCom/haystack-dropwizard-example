@@ -24,7 +24,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class HelloWorldConfiguration extends Configuration implements Traceable {
-
     @Valid
     @NotNull
     private TracerFactory tracerFactory;

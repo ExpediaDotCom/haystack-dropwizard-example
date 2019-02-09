@@ -50,9 +50,8 @@ In this mode, the application runs with the configuration in [config_frontend.ym
 To run the example in this mode, execute 
 
 ```bash
-./mvnw exec:java -Dexec.args="server config_frontend.yml"
-./mvnw exec:java -Dexec.args="server config_backend.yml"
-
+./mvnw exec:java -Dexec.args="frontend local"
+./mvnw exec:java -Dexec.args="backend local"
 ```
 
 and send a sample request
@@ -84,8 +83,8 @@ To start haystack and agent locally, one can follow the instructions at [https:/
 After starting Haystack server, run this example with the following commands. This starts the application with the configuration in [config_frontend.yml](config_frontend.yml) and [config_backend.yml](config_backend.yml)
 
 ```bash
-./mvnw exec:java -Dexec.args="server config_frontend.yml"
-./mvnw exec:java -Dexec.args="server config_backend.yml"
+./mvnw exec:java -Dexec.args="frontend remote"
+./mvnw exec:java -Dexec.args="backend remote"
 ```
 
 and send a sample request

@@ -1,0 +1,15 @@
+tracer:
+  serviceName: Backend
+  enabled: true
+  dispatchers:
+    - type: logger
+      loggerName: dispatcher
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 9091
+  adminConnectors: []
+
+logging:
+  level: INFO

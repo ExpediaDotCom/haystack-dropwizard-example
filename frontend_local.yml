@@ -1,0 +1,17 @@
+tracer:
+  serviceName: Frontend
+  enabled: true
+  dispatchers:
+    - type: logger
+      loggerName: dispatcher
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 9090
+  adminConnectors:
+    - type: http
+      port: 9092
+
+logging:
+  level: INFO
