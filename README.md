@@ -45,7 +45,7 @@ There are two modes to run the application. One with no `Haystack` server, where
 
 ### Run with no backend
 
-In this mode, the application runs with the configuration in [config_frontend.yml](config_frontend.yml) and [config_backend.yml](config_backend.yml) which configures the instrumentation to use a simple logger as the dispatcher.
+In this mode, the application runs with the configuration in [frontend_local.yml](frontend_local.yml) and [backend_local.yml](backend_local.yml) which configures the instrumentation to use a simple logger as the dispatcher.
 
 To run the example in this mode, execute 
 
@@ -78,9 +78,9 @@ And one line in the backend console log for the request it received from the fro
 
 ### Run with Haystack server
 
-To start haystack and agent locally, one can follow the instructions at [https://github.com/mchandramouli/haystack-docker#to-start-traces-and-trends](https://github.com/mchandramouli/haystack-docker#to-start-traces-and-trends)
+To start haystack and agent locally, one can follow the instructions at [https://github.com/ExpediaDotCom/haystack-docker#to-start-haystacks-traces-trends-and-service-graph](https://github.com/ExpediaDotCom/haystack-docker#to-start-haystacks-traces-trends-and-service-graph)
  
-After starting Haystack server, run this example with the following commands. This starts the application with the configuration in [config_frontend.yml](config_frontend.yml) and [config_backend.yml](config_backend.yml)
+After starting Haystack server, run this example with the following commands. This starts the application with the configuration in [frontend_remote.yml](frontend_remote.yml) and [backend_remote.yml](backend_remote.yml)
 
 ```bash
 ./mvnw exec:java -Dexec.args="frontend remote"
