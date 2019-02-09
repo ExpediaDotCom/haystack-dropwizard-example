@@ -9,9 +9,7 @@ server:
   applicationConnectors:
     - type: http
       port: 9090
-  adminConnectors:
-    - type: http
-      port: 9092
+  adminConnectors: []
 
 logging:
   level: INFO
