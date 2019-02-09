@@ -17,15 +17,12 @@
 package com.expedia.www.haystack.dropwizard.example.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import org.eclipse.microprofile.opentracing.Traced;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.MediaType;
-import java.util.Optional;
+import org.eclipse.microprofile.opentracing.Traced;
 
 @Path("/hello")
 @Produces(MediaType.APPLICATION_JSON)
@@ -40,8 +37,8 @@ public class Frontend {
     @GET
     @Timed
     @Traced(operationName = "/hello")
-    public String sayHelloToServer(@QueryParam("name") Optional<String> name) {
-        return  client.target(backendUrl).queryParam("name", name.orElse("Haystack")).request().get(String.class);
+    public String sayHelloToServer() {
+        return  client.target(backendUrl).queryParam("name","Haystack").request().get(String.class);
     }
 
 }

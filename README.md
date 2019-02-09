@@ -24,7 +24,7 @@ This is a very basic example that can output the instrumentation to console and/
 
 ### Instrumentation
 
-If one peeks into the code, both [Frontend.java](src/main/java/com/expedia/www/haystack/dropwizard/example/resources/Frontend.java) and [Backend.java](src/main/java/com/expedia/www/haystack/dropwizard/example/resources/Backend.java) are simple Dropwizard resources with no additional instrumentation code.  Most of the instrumentation is done in the [HelloWorldApplication.java](src/main/java/com/expedia/www/haystack/dropwizard/example/HelloWorldApplication.java) by the dependencies `haystack-client-dropwizard` and `opentracing-jaxrs2`, that is included in the [pom.xml](pom.xml). For more information how this library works, one can check the documentations at [https://github.com/opentracing-contrib/java-jaxrs](https://github.com/opentracing-contrib/java-jaxrs) and [https://github.com/ExpediaDotCom/haystack-client-java/tree/master/integrations/dropwizard](https://github.com/ExpediaDotCom/haystack-client-java/tree/master/integrations/dropwizard)
+If one peeks into the code, both [Frontend.java](src/main/java/com/expedia/www/haystack/dropwizard/example/resources/Frontend.java) and [Backend.java](src/main/java/com/expedia/www/haystack/dropwizard/example/resources/Backend.java) are simple Dropwizard resources with no additional instrumentation code other than `@Traced` annotation. All of the required wiring are done in the [FrontendApplication.java](src/main/java/com/expedia/www/haystack/dropwizard/example/FrontendApplication.java) and BackendApplication.java respectively. Heavy lifting is done by the dependencies `haystack-client-dropwizard` and `opentracing-jaxrs2` that are included in the [pom.xml](pom.xml). For more information on how those libraries work, one can check the documentations at [https://github.com/opentracing-contrib/java-jaxrs](https://github.com/opentracing-contrib/java-jaxrs) and [https://github.com/ExpediaDotCom/haystack-client-java/tree/master/integrations/dropwizard](https://github.com/ExpediaDotCom/haystack-client-java/tree/master/integrations/dropwizard)
 
 ## Running this example
 
@@ -45,14 +45,13 @@ There are two modes to run the application. One with no `Haystack` server, where
 
 ### Run with no backend
 
-In this mode, the application runs with the configuration in [config_frontend.yml](config_frontend.yml) and [config_backend.yml](config_backend.yml) which configures the instrumentation to use a simple logger as the dispatcher.
+In this mode, the application runs with the configuration in [frontend_local.yml](frontend_local.yml) and [backend_local.yml](backend_local.yml) which configures the instrumentation to use a simple logger as the dispatcher.
 
 To run the example in this mode, execute 
 
 ```bash
-./mvnw exec:java -Dexec.args="server config_frontend.yml"
-./mvnw exec:java -Dexec.args="server config_backend.yml"
-
+./mvnw exec:java -Dexec.args="frontend local"
+./mvnw exec:java -Dexec.args="backend local"
 ```
 
 and send a sample request
@@ -81,11 +80,11 @@ And one line in the backend console log for the request it received from the fro
 
 To start haystack and agent locally, one can follow the instructions at [https://github.com/ExpediaDotCom/haystack-docker#to-start-haystacks-traces-trends-and-service-graph](https://github.com/ExpediaDotCom/haystack-docker#to-start-haystacks-traces-trends-and-service-graph)
  
-After starting Haystack server, run this example with the following commands. This starts the application with the configuration in [config_frontend.yml](config_frontend.yml) and [config_backend.yml](config_backend.yml)
+After starting Haystack server, run this example with the following commands. This starts the application with the configuration in [frontend_remote.yml](frontend_remote.yml) and [backend_remote.yml](backend_remote.yml)
 
 ```bash
-./mvnw exec:java -Dexec.args="server config_frontend.yml"
-./mvnw exec:java -Dexec.args="server config_backend.yml"
+./mvnw exec:java -Dexec.args="frontend remote"
+./mvnw exec:java -Dexec.args="backend remote"
 ```
 
 and send a sample request

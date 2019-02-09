@@ -17,16 +17,14 @@
 package com.expedia.www.haystack.dropwizard.example.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.expedia.www.haystack.dropwizard.example.entities.Saying;
-import org.eclipse.microprofile.opentracing.Traced;
-
+import java.util.concurrent.atomic.AtomicLong;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
+import lombok.Data;
+import org.eclipse.microprofile.opentracing.Traced;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -40,8 +38,8 @@ public class Backend {
     @GET
     @Timed
     @Traced(operationName = "sayHello")
-    public Saying sayHello(@QueryParam("name") Optional<String> name) {
-        final String value = String.format("Hello, %s!", name.orElse("Harry"));
+    public Saying sayHello(@QueryParam("name") String name) {
+        final String value = String.format("Hello, %s!", name);
         return new Saying(counter.incrementAndGet(), value);
     }
 
@@ -49,8 +47,13 @@ public class Backend {
     @Timed
     @Path("/ignored")
     @Traced(false)
-    public Saying sayHelloNotTracked(@QueryParam("name") Optional<String> name) {
+    public Saying sayHelloNotTracked(@QueryParam("name") String name) {
         return sayHello(name);
     }
 
+    @Data
+    private class Saying {
+        private final long id;
+        private final String saying;
+    }
 }
