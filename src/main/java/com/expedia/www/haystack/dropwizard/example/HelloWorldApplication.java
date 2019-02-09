@@ -44,18 +44,19 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     @Override
     public void run(HelloWorldConfiguration helloWorldConfiguration,
                     Environment environment) {
-        switch (helloWorldConfiguration.getTracerFactory().getServiceName().toLowerCase()) {
-            case "frontend":
-                //the
-                final Client client = ClientBuilder.newBuilder()
-                        .register(this.haystackTracerBundle.clientTracingFeature(environment))
-                        .build();
-                environment.jersey().register(new Frontend(client));
-                break;
-            case "backend":
-                environment.jersey().register(new Backend());
-                break;
-            default:
+        final String serviceName = helloWorldConfiguration.getTracerFactory().getServiceName().toLowerCase();
+
+        if ("frontend".equalsIgnoreCase(serviceName)) {
+            // the following line registers ClientTracingFeature to trace all
+            // outbound service calls
+            final Client client = ClientBuilder.newBuilder()
+                    .register(this.haystackTracerBundle.clientTracingFeature(environment))
+                    .build();
+
+            environment.jersey().register(new Frontend(client));
+        }
+        else {
+            environment.jersey().register(new Backend());
         }
     }
 }

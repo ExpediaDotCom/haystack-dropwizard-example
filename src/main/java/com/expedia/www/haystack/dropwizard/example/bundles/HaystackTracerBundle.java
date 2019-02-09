@@ -21,8 +21,6 @@ public class HaystackTracerBundle<T extends Traceable> implements ConfiguredBund
 
         final Tracer tracer = traceable.getTracerFactory().build(environment);
 
-        // This registers a server tracing feature with the jersey environment so that the
-        // incoming calls to the service are traced
         final ServerTracingDynamicFeature tracingDynamicFeature = new ServerTracingDynamicFeature
                 .Builder(tracer)
                 .withTraceSerialization(false).build();
