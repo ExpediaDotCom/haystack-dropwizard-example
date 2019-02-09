@@ -15,20 +15,12 @@ import org.apache.commons.lang3.Validate;
 public class HaystackTracerBundle<T extends Traceable> implements ConfiguredBundle<T> {
 
     @Override
-    public void run(T traceable, Environment environment) throws Exception {
+    public void run(T traceable, Environment environment) {
         Validate.notNull(traceable);
         Validate.notNull(environment);
+
         final Tracer tracer = traceable.getTracerFactory().build(environment);
-        registerServerTracer(environment, tracer);
-        environment.jersey().property(Tracer.class.getName(), tracer);
-    }
 
-    @Override
-    public void initialize(Bootstrap bootstrap) {
-        //no-op
-    }
-
-    private void registerServerTracer(Environment environment, Tracer tracer) {
         // This registers a server tracing feature with the jersey environment so that the
         // incoming calls to the service are traced
         final ServerTracingDynamicFeature tracingDynamicFeature = new ServerTracingDynamicFeature
@@ -39,6 +31,13 @@ public class HaystackTracerBundle<T extends Traceable> implements ConfiguredBund
         environment.servlets()
                 .addFilter("SpanFinishingFilter", new SpanFinishingFilter(tracer))
                 .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+        
+        environment.jersey().property(Tracer.class.getName(), tracer);
+    }
+
+    @Override
+    public void initialize(Bootstrap bootstrap) {
+        //no-op
     }
 
     public ClientTracingFeature clientTracingFeature(Environment environment) {
