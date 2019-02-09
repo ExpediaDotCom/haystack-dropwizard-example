@@ -1,0 +1,21 @@
+tracer:
+  serviceName: Backend
+  enabled: true
+  dispatchers:
+    - type: logger
+      loggerName: dispatcher
+    - type: remote
+      client:
+        type: agent
+        host: localhost
+        format:
+          type: protobuf
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 9091
+  adminConnectors: []
+
+logging:
+  level: INFO
