@@ -1,5 +1,3 @@
-serviceType: frontend
-
 tracer:
   serviceName: Frontend
   enabled: true
@@ -17,18 +15,9 @@ server:
   applicationConnectors:
     - type: http
       port: 9090
+  adminConnectors:
+    - type: http
+      port: 9092
 
 logging:
   level: INFO
-  loggers:
-    group: DEBUG
-
-    # capture logger dispatcher interactions to a seperate file
-    dispatcher:
-      level: DEBUG
-      additive: false
-      appenders:
-        - type: file
-          currentLogFilename: ./logs/frontenddispatcher.log
-          archivedLogFilenamePattern: ./logs/frontenddispatcher-%d.log.gz
-          archivedFileCount: 5

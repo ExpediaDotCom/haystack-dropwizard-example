@@ -16,40 +16,39 @@
  */
 package com.expedia.www.haystack.dropwizard.example;
 
+import com.expedia.www.haystack.dropwizard.example.bundles.HaystackTracerBundle;
 import com.expedia.www.haystack.dropwizard.example.resources.Backend;
 import com.expedia.www.haystack.dropwizard.example.resources.Frontend;
 import io.dropwizard.Application;
+import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import io.opentracing.Tracer;
-import io.opentracing.contrib.jaxrs2.client.ClientTracingFeature;
-import io.opentracing.contrib.jaxrs2.server.ServerTracingDynamicFeature;
-import io.opentracing.contrib.jaxrs2.server.SpanFinishingFilter;
-
-import javax.servlet.DispatcherType;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import java.util.EnumSet;
 
 public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
+
+    // bundle that initializes an instance of io.opentracing.Tracer
+    private final HaystackTracerBundle<HelloWorldConfiguration> haystackTracerBundle = new HaystackTracerBundle<>();
 
     public static void main(String[] args) throws Exception {
         new HelloWorldApplication().run(args);
     }
 
     @Override
+    public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
+        // the following line initializes server tracing and entertains @Traced
+        // annotations on Resource methods
+        bootstrap.addBundle(this.haystackTracerBundle);
+    }
+
+    @Override
     public void run(HelloWorldConfiguration helloWorldConfiguration,
-                    Environment environment) throws Exception {
-
-        final Tracer tracer = helloWorldConfiguration.getTracer().build(environment);
-        registerTracer(environment, tracer);
-
-        switch (helloWorldConfiguration.getServiceType().toLowerCase()) {
+                    Environment environment) {
+        switch (helloWorldConfiguration.getTracerFactory().getServiceName().toLowerCase()) {
             case "frontend":
-                // This creates a client with the tracing feature enabled so as to trace the downstream interactions.
+                //the
                 final Client client = ClientBuilder.newBuilder()
-                        .register(new ClientTracingFeature.Builder(tracer)
-                                        .withTraceSerialization(false)
-                                        .build())
+                        .register(this.haystackTracerBundle.clientTracingFeature(environment))
                         .build();
                 environment.jersey().register(new Frontend(client));
                 break;
@@ -58,18 +57,5 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
                 break;
             default:
         }
-    }
-
-    private void registerTracer(Environment environment, Tracer tracer) {
-        // This registers a server tracing feature with the jersey environment so that the
-        // incoming calls to the service are traced
-        final ServerTracingDynamicFeature tracingDynamicFeature = new ServerTracingDynamicFeature
-                .Builder(tracer)
-                .withTraceSerialization(false).build();
-        environment.jersey().register(tracingDynamicFeature);
-
-        environment.servlets()
-                .addFilter("SpanFinishingFilter", new SpanFinishingFilter(tracer))
-                .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
     }
 }
