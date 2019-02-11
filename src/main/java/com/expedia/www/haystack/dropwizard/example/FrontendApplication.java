@@ -1,6 +1,6 @@
 package com.expedia.www.haystack.dropwizard.example;
 
-import com.expedia.www.haystack.dropwizard.example.bundles.HaystackTracerBundle;
+import com.expedia.haystack.dropwizard.bundle.HaystackTracerBundle;
 import com.expedia.www.haystack.dropwizard.example.resources.Frontend;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;

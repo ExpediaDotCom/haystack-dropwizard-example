@@ -16,8 +16,8 @@
  */
 package com.expedia.www.haystack.dropwizard.example;
 
+import com.expedia.haystack.dropwizard.bundle.Traceable;
 import com.expedia.haystack.dropwizard.configuration.TracerFactory;
-import com.expedia.www.haystack.dropwizard.example.bundles.Traceable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 import javax.validation.Valid;
