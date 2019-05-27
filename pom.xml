@@ -11,11 +11,7 @@
   <properties>
     <mainClass>com.expedia.www.haystack.dropwizard.example.HelloWorldApplication</mainClass>
     <dropwizard.version>1.2.2</dropwizard.version>
-    <haystack-client-dropwizard.version>0.2.4</haystack-client-dropwizard.version>
-    <haystack-client-micrometer.version>0.2.4</haystack-client-micrometer.version>
-    <haystack-client-dropwizard-metrics.version>0.2.4</haystack-client-dropwizard-metrics.version>
-    <version.io.opentracing.contrib-jaxrs2>0.1.4</version.io.opentracing.contrib-jaxrs2>
-    <version.io.microprofile-opentracing>1.0</version.io.microprofile-opentracing>
+    <haystack-dropwizard.version>0.2.2</haystack-dropwizard.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
@@ -34,39 +30,10 @@
 
   <dependencies>
 
-    <!-- Dropwizard based metrics for haystack-client -->
     <dependency>
       <groupId>com.expedia.www</groupId>
-      <artifactId>haystack-client-dropwizard</artifactId>
-      <version>${haystack-client-dropwizard.version}</version>
-    </dependency>
-
-    <!-- Dropwizard based metrics for haystack-client -->
-    <dependency>
-      <groupId>com.expedia.www</groupId>
-      <artifactId>haystack-client-dropwizard-metrics</artifactId>
-      <version>${haystack-client-dropwizard-metrics.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-
-    <!-- Micrometer based metrics for haystack-client -->
-    <dependency>
-      <groupId>com.expedia.www</groupId>
-      <artifactId>haystack-client-micrometer</artifactId>
-      <version>${haystack-client-micrometer.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>io.opentracing.contrib</groupId>
-      <artifactId>opentracing-jaxrs2</artifactId>
-      <version>${version.io.opentracing.contrib-jaxrs2}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.microprofile.opentracing</groupId>
-      <artifactId>microprofile-opentracing-api</artifactId>
-      <version>${version.io.microprofile-opentracing}</version>
+      <artifactId>haystack-dropwizard</artifactId>
+      <version>${haystack-dropwizard.version}</version>
     </dependency>
 
     <dependency>
